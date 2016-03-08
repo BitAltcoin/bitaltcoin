@@ -80,7 +80,7 @@ void Shutdown(void* parg)
         delete pwalletMain;
         CreateThread(ExitTimeout, NULL);
         Sleep(50);
-        printf("SmallChange exited\n\n");
+        printf("BitAltcoin exited\n\n");
         fExit = true;
 #ifndef QT_GUI
         // ensure non UI client get's exited here, but let Bitcoin-Qt reach return 0; in bitcoin.cpp
@@ -134,13 +134,13 @@ bool AppInit(int argc, char* argv[])
 
         if (mapArgs.count("-?") || mapArgs.count("--help"))
         {
-            // First part of help message is specific to SmallChange server / RPC client
-            std::string strUsage = _("SmallChange version") + " " + FormatFullVersion() + "\n\n" +
+            // First part of help message is specific to BitAltcoin server / RPC client
+            std::string strUsage = _("BitAltcoin version") + " " + FormatFullVersion() + "\n\n" +
                 _("Usage:") + "\n" +
-                  "  smallchange [options]                     " + "\n" +
-                  "  smallchange [options] <command> [params]  " + _("Send command to -server or smallchange") + "\n" +
-                  "  smallchange [options] help                " + _("List commands") + "\n" +
-                  "  smallchange [options] help <command>      " + _("Get help for a command") + "\n";
+                  "  bitaltcoin [options]                     " + "\n" +
+                  "  bitaltcoin [options] <command> [params]  " + _("Send command to -server or bitaltcoin") + "\n" +
+                  "  bitaltcoin [options] help                " + _("List commands") + "\n" +
+                  "  bitaltcoin [options] help <command>      " + _("Get help for a command") + "\n";
 
             strUsage += "\n" + HelpMessage();
 
@@ -150,7 +150,7 @@ bool AppInit(int argc, char* argv[])
 
         // Command-line RPC
         for (int i = 1; i < argc; i++)
-            if (!IsSwitchChar(argv[i][0]) && !boost::algorithm::istarts_with(argv[i], "smallchange:"))
+            if (!IsSwitchChar(argv[i][0]) && !boost::algorithm::istarts_with(argv[i], "bitaltcoin:"))
                 fCommandLine = true;
 
         if (fCommandLine)
@@ -190,13 +190,13 @@ int main(int argc, char* argv[])
 
 bool static InitError(const std::string &str)
 {
-    uiInterface.ThreadSafeMessageBox(str, _("SmallChange"), CClientUIInterface::OK | CClientUIInterface::MODAL);
+    uiInterface.ThreadSafeMessageBox(str, _("BitAltcoin"), CClientUIInterface::OK | CClientUIInterface::MODAL);
     return false;
 }
 
 bool static InitWarning(const std::string &str)
 {
-    uiInterface.ThreadSafeMessageBox(str, _("SmallChange"), CClientUIInterface::OK | CClientUIInterface::ICON_EXCLAMATION | CClientUIInterface::MODAL);
+    uiInterface.ThreadSafeMessageBox(str, _("BitAltcoin"), CClientUIInterface::OK | CClientUIInterface::ICON_EXCLAMATION | CClientUIInterface::MODAL);
     return true;
 }
 
@@ -220,8 +220,8 @@ extern double GetDifficulty(const CBlockIndex* blockindex = NULL);
 std::string HelpMessage()
 {
     string strUsage = _("Options:") + "\n" +
-        "  -conf=<file>           " + _("Specify configuration file (default: smallchange.conf)") + "\n" +
-        "  -pid=<file>            " + _("Specify pid file (default: smallchange.pid)") + "\n" +
+        "  -conf=<file>           " + _("Specify configuration file (default: bitaltcoin.conf)") + "\n" +
+        "  -pid=<file>            " + _("Specify pid file (default: bitaltcoin.pid)") + "\n" +
         "  -gen                   " + _("Generate coins") + "\n" +
         "  -gen=0                 " + _("Don't generate coins") + "\n" +
         "  -datadir=<dir>         " + _("Specify data directory") + "\n" +
@@ -296,7 +296,7 @@ std::string HelpMessage()
     return strUsage;
 }
 
-/** Initialize SmallChange.
+/** Initialize BitAltcoin.
  *  @pre Parameters should be parsed and config file should be read.
  */
 bool AppInit2()
@@ -429,13 +429,13 @@ bool AppInit2()
 
     // ********************************************************* Step 4: application initialization: dir lock, daemonize, pidfile, debug log
 
-    // Make sure only a single smallchange process is using the data directory.
+    // Make sure only a single bitaltcoin process is using the data directory.
     boost::filesystem::path pathLockFile = GetDataDir() / ".lock";
     FILE* file = fopen(pathLockFile.string().c_str(), "a"); // empty lock file; created if it doesn't exist.
     if (file) fclose(file);
     static boost::interprocess::file_lock lock(pathLockFile.string().c_str());
     if (!lock.try_lock())
-        return InitError(strprintf(_("Cannot obtain a lock on data directory %s.  SmallChange is probably already running."), GetDataDir().string().c_str()));
+        return InitError(strprintf(_("Cannot obtain a lock on data directory %s.  BitAltcoin is probably already running."), GetDataDir().string().c_str()));
 
 #if !defined(WIN32) && !defined(QT_GUI)
     if (fDaemon)
@@ -462,14 +462,14 @@ bool AppInit2()
     if (!fDebug)
         ShrinkDebugFile();
     printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-    printf("SmallChange version %s (%s)\n", FormatFullVersion().c_str(), CLIENT_DATE.c_str());
+    printf("BitAltcoin version %s (%s)\n", FormatFullVersion().c_str(), CLIENT_DATE.c_str());
     printf("Startup time: %s\n", DateTimeStrFormat("%x %H:%M:%S", GetTime()).c_str());
     printf("Default data directory %s\n", GetDefaultDataDir().string().c_str());
     printf("Used data directory %s\n", GetDataDir().string().c_str());
     std::ostringstream strErrors;
 
     if (fDaemon)
-        fprintf(stdout, "SmallChange server starting\n");
+        fprintf(stdout, "BitAltcoin server starting\n");
 
     int64 nStart;
 
@@ -590,7 +590,7 @@ bool AppInit2()
         strErrors << _("Error loading blkindex.dat") << "\n";
 
     // as LoadBlockIndex can take several minutes, it's possible the user
-    // requested to kill smallchange-qt during the last operation. If so, exit.
+    // requested to kill bitaltcoin-qt during the last operation. If so, exit.
     // As the program has not fully started yet, Shutdown() is possibly overkill.
     if (fRequestShutdown)
     {
@@ -667,10 +667,10 @@ bool AppInit2()
         if (nLoadWalletRet == DB_CORRUPT)
             strErrors << _("Error loading wallet.dat: Wallet corrupted") << "\n";
         else if (nLoadWalletRet == DB_TOO_NEW)
-            strErrors << _("Error loading wallet.dat: Wallet requires newer version of SmallChange") << "\n";
+            strErrors << _("Error loading wallet.dat: Wallet requires newer version of BitAltcoin") << "\n";
         else if (nLoadWalletRet == DB_NEED_REWRITE)
         {
-            strErrors << _("Wallet needed to be rewritten: restart SmallChange to complete") << "\n";
+            strErrors << _("Wallet needed to be rewritten: restart BitAltcoin to complete") << "\n";
             printf("%s", strErrors.str().c_str());
             return InitError(strErrors.str());
         }
