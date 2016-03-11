@@ -27,32 +27,36 @@ namespace Checkpoints
         (         1, uint256("0x9e9a4664bfd6f56d2136dfb47b93b95f9360107e220b111c4aa8e62d211dfb1f"))
         ;
 
-    bool CheckBlock(int nHeight, const uint256& hash)
+   bool CheckBlock(int nHeight, const uint256& hash)
     {
         if (fTestNet) return true; // Testnet has no checkpoints
 
         MapCheckpoints::const_iterator i = mapCheckpoints.find(nHeight);
         if (i == mapCheckpoints.end()) return true;
-        return hash == i->second;
+        // return hash == i->second;
+      return true;
     }
 
     int GetTotalBlocksEstimate()
     {
         if (fTestNet) return 0;
-        return mapCheckpoints.rbegin()->first;
+   
+        // return mapCheckpoints.rbegin()->first;
+      return 0;
     }
 
     CBlockIndex* GetLastCheckpoint(const std::map<uint256, CBlockIndex*>& mapBlockIndex)
     {
-        if (fTestNet) return NULL;
+        if (fTestNet) return true;
 
         BOOST_REVERSE_FOREACH(const MapCheckpoints::value_type& i, mapCheckpoints)
         {
             const uint256& hash = i.second;
             std::map<uint256, CBlockIndex*>::const_iterator t = mapBlockIndex.find(hash);
             if (t != mapBlockIndex.end())
-                return t->second;
+                // return t->second;
+            return true;
         }
-        return NULL;
+        return true;
     }
 }
