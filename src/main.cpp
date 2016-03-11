@@ -577,8 +577,8 @@ bool CTxMemPool::accept(CTxDB& txdb, CTransaction &tx, bool fCheckInputs,
 
             {
                 LOCK(cs);
-                // Use an exponentially decaying ~10-minute window:
-                dFreeCount *= pow(1.0 - 1.0/600.0, (double)(nNow - nLastTime));
+                // Use an exponentially decaying ~50-minute window:
+                dFreeCount *= pow(1.0 - 1.0/300.0, (double)(nNow - nLastTime));
                 nLastTime = nNow;
                 // -limitfreerelay unit is thousand-bytes-per-minute
                 // At default rate it would take over a month to fill 1GB
@@ -1810,8 +1810,8 @@ bool CBlock::AcceptBlock()
             return DoS(10, error("AcceptBlock() : contains a non-final transaction"));
 
     // Check that the block chain matches the known block chain up to a checkpoint
-    //if (!Checkpoints::CheckBlock(nHeight, hash))
-    //    return DoS(100, error("AcceptBlock() : rejected by checkpoint lockin at %d", nHeight));
+    if (!Checkpoints::CheckBlock(nHeight, hash))
+        return DoS(100, error("AcceptBlock() : rejected by checkpoint lockin at %d", nHeight));
 
     // Write block to history file
     if (!CheckDiskSpace(::GetSerializeSize(*this, SER_DISK, CLIENT_VERSION)))
@@ -2008,8 +2008,8 @@ bool LoadBlockIndex(bool fAllowNew)
             return false;
     
 	// Genesis block:
-	// block.nTime = 1457423878 
-	// block.nNonce = 2085386442 
+	// block.nTime = 1457721679 
+	// block.nNonce = 208311901 
 	// block.GetHash = 384b060671f4a93948e9c168216dadb0ca2fbc54aa11c86b0345b6af1c59b2f5
 	// CBlock(hash=384b060671f4a93948e9, PoW=00000951e146b0026411, ver=1,
 	//  hashPrevBlock=00000000000000000000, hashMerkleRoot=5a2e19825b,
@@ -2025,21 +2025,21 @@ bool LoadBlockIndex(bool fAllowNew)
         txNew.vin.resize(1);
         txNew.vout.resize(1);
         txNew.vin[0].scriptSig = CScript() << 486604799 << CBigNum(4) << vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
-        txNew.vout[0].nValue = 0;
+        txNew.vout[0].nValue = 1.04;
         txNew.vout[0].scriptPubKey = CScript() << 0x0 << OP_CHECKSIG; // a privkey for that 'vanity' pubkey would be interesting ;)
         CBlock block;
         block.vtx.push_back(txNew);
         block.hashPrevBlock = 0;
         block.hashMerkleRoot = block.BuildMerkleTree();
         block.nVersion = 1;
-        block.nTime    = 1457692815;
+        block.nTime    = 1457721679;
         block.nBits    = 0x1e0ffff0;
-        block.nNonce   = 2083236893;
+        block.nNonce   = 208311901;
 
         if (fTestNet)
         {
-            block.nTime    = 1457692815;
-            block.nNonce   = 2083236893;
+            block.nTime    = 1457721679;
+            block.nNonce   = 208311901;
         }
 
         //// debug print
