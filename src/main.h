@@ -29,22 +29,22 @@ class CNode;
 // This fix should give some protection agains sudden
 // changes of the network hashrate.
 // Thanks: https://bitcointalk.org/index.php?topic=182430.msg1904506#msg1904506
-// activated: after block 15000 for all following diff retargeting events
-#define COINFIX1_BLOCK  (10000)
+// activated: after block 1 for all following diff retargeting events
+#define COINFIX1_BLOCK  (1)
 
-// for now, we leave the block size at 32 MB, meaning we support roughly 76 800(?) transactions
+// for now, we leave the block size at 600kb, meaning we support roughly 76 800(?) transactions
 // per block, which means about 160 tps
-static const unsigned int MAX_BLOCK_SIZE = 32000000;
-static const unsigned int MAX_BLOCK_SIZE_GEN = MAX_BLOCK_SIZE/4;
-static const unsigned int MAX_BLOCK_SIGOPS = MAX_BLOCK_SIZE/100;
-static const unsigned int MAX_ORPHAN_TRANSACTIONS = MAX_BLOCK_SIZE/500;
+static const unsigned int MAX_BLOCK_SIZE = 600000;
+static const unsigned int MAX_BLOCK_SIZE_GEN = MAX_BLOCK_SIZE/16;
+static const unsigned int MAX_BLOCK_SIGOPS = MAX_BLOCK_SIZE/10;
+static const unsigned int MAX_ORPHAN_TRANSACTIONS = MAX_BLOCK_SIZE/50;
 static const int64 MIN_TX_FEE = 50000000;
 static const int64 MIN_RELAY_TX_FEE = MIN_TX_FEE;
 static const int64 MAX_MONEY = 2007680 * COIN; // maximum of 2 007 680 coins
 inline bool MoneyRange(int64 nValue) { return (nValue >= 0 && nValue <= MAX_MONEY); }
-static const int COINBASE_MATURITY = 150;
+static const int COINBASE_MATURITY = 3;
 // Threshold for nLockTime: below this value it is interpreted as block number, otherwise as UNIX timestamp.
-static const unsigned int LOCKTIME_THRESHOLD = 100000000; // Tue Nov  5 00:53:20 1985 UTC
+static const unsigned int LOCKTIME_THRESHOLD = 10000000; // Tue Nov  5 00:53:20 1985 UTC
 #ifdef USE_UPNP
 static const int fHaveUPnP = true;
 #else
