@@ -2019,7 +2019,7 @@ bool LoadBlockIndex(bool fAllowNew)
 	// vMerkleTree: 5a2e19825b
         
         // Genesis block
-        const char* pszTimestamp = "todo: replace with something that ensures no premining took place";
+        const char* pszTimestamp = "PL Times 11/03/2016 Jimmy Deadjim, Astral’s Visionary, Reborn at 23";
         CTransaction txNew;
         txNew.vin.resize(1);
         txNew.vout.resize(1);
@@ -2031,14 +2031,14 @@ bool LoadBlockIndex(bool fAllowNew)
         block.hashPrevBlock = 0;
         block.hashMerkleRoot = block.BuildMerkleTree();
         block.nVersion = 1;
-        block.nTime    = 1457657196;
-        block.nBits    = 0x1d00ffff;
+        block.nTime    = 1457692815;
+        block.nBits    = 0x1e0ffff0;
         block.nNonce   = 2083236893;
 
         if (fTestNet)
         {
-            block.nTime    = 1457657196;
-            block.nNonce   = 2083236893;
+            block.nTime    = 1457692815;
+            block.nNonce   = 386402991;
         }
 
         //// debug print
