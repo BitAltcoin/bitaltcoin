@@ -833,7 +833,7 @@ int64 static GetBlockValue(int nHeight, int64 nFees)
 
 
     if(nHeight < 10) // no block reward within the first 3 days
-        nSubsidy = 0;
+        nSubsidy = 1;
     if(nHeight > 1000200) // no block reward after 2.5 years
         nSubsidy = 0;
 
@@ -1988,7 +1988,7 @@ bool LoadBlockIndex(bool fAllowNew)
         pchMessageStart[1] = 0xc0;
         pchMessageStart[2] = 0xb8;
         pchMessageStart[3] = 0xdb;
-        hashGenesisBlock = uint256("0x9e9a4664bfd6f56d2136dfb47b93b95f9360107e220b111c4aa8e62d211dfb1f");
+        hashGenesisBlock = uint256("0x9b2ff1ff2d80e7386c89e40a058effc4fd97139b995a625854b7c4c3a3b2871c");
     }
 
     //
@@ -2039,7 +2039,7 @@ bool LoadBlockIndex(bool fAllowNew)
         if (fTestNet)
         {
             block.nTime    = 1457692815;
-            block.nNonce   = 386402991;
+            block.nNonce   = 2083236893;
         }
 
         //// debug print
