@@ -29,7 +29,7 @@ CTxMemPool mempool;
 unsigned int nTransactionsUpdated = 0;
 
 map<uint256, CBlockIndex*> mapBlockIndex;
-uint256 hashGenesisBlock("0x384b060671f4a93948e9c168216dadb0ca2fbc54aa11c86b0345b6af1c59b2f5");
+uint256 hashGenesisBlock("0x9e9a4664bfd6f56d2136dfb47b93b95f9360107e220b111c4aa8e62d211dfb1f");
 static CBigNum bnProofOfWorkLimit(~uint256(0) >> 20); // starting difficulty is 1 / 2^12
 CBlockIndex* pindexGenesisBlock = NULL;
 int nBestHeight = -1;
@@ -839,13 +839,13 @@ int64 static GetBlockValue(int nHeight, int64 nFees)
     return nSubsidy + nFees;
 }
 
-static const int64 nTargetTimespan = 0.35 * 24 * 60 * 60; // BitAltcoin: 0.35 days
-static const int64 nTargetSpacing = 15; // BitAltcoin: 15 seconds
+static const int64 nTargetTimespan = 5 * 24 * 60 * 60; // BitAltcoin: 5 days
+static const int64 nTargetSpacing = 5; // BitAltcoin: 5 seconds
 static const int64 nInterval = nTargetTimespan / nTargetSpacing;
 
 // Thanks: Balthazar for suggesting the following fix
 // https://bitcointalk.org/index.php?topic=182430.msg1904506#msg1904506
-static const int64 nReTargetHistoryFact = 4; // look at 4 times the retarget
+static const int64 nReTargetHistoryFact = 8; // look at 4 times the retarget
                                              // interval into the block history
 
 //
@@ -863,10 +863,10 @@ unsigned int ComputeMinWork(unsigned int nBase, int64 nTime)
     bnResult.SetCompact(nBase);
     while (nTime > 0 && bnResult < bnProofOfWorkLimit)
     {
-        // Maximum 800% adjustment...
-        bnResult *= 8;
-        // ... in best-case exactly 8-times-normal target time
-        nTime -= nTargetTimespan*8;
+        // Maximum 200% adjustment...
+        bnResult *= 2;
+        // ... in best-case exactly 10-times-normal target time
+        nTime -= nTargetTimespan*10;
     }
     if (bnResult > bnProofOfWorkLimit)
         bnResult = bnProofOfWorkLimit;
@@ -1987,7 +1987,7 @@ bool LoadBlockIndex(bool fAllowNew)
         pchMessageStart[1] = 0xc0;
         pchMessageStart[2] = 0xb8;
         pchMessageStart[3] = 0xdb;
-        hashGenesisBlock = uint256("0xa50faf35e1dddf4a076a907fbcef6d9d1595390cdb1c818a35dae53b67ad0aa8");
+        hashGenesisBlock = uint256("0x9e9a4664bfd6f56d2136dfb47b93b95f9360107e220b111c4aa8e62d211dfb1f");
     }
 
     //
@@ -2031,14 +2031,14 @@ bool LoadBlockIndex(bool fAllowNew)
         block.hashPrevBlock = 0;
         block.hashMerkleRoot = block.BuildMerkleTree();
         block.nVersion = 1;
-        block.nTime    = 1457423878;
-        block.nBits    = 0x1e0ffff0;
-        block.nNonce   = 2085386442;
+        block.nTime    = 1457657196;
+        block.nBits    = 0x1d00ffff;
+        block.nNonce   = 2083236893;
 
         if (fTestNet)
         {
-            block.nTime    = 1457423878;
-            block.nNonce   = 386402991;
+            block.nTime    = 1457657196;
+            block.nNonce   = 2083236893;
         }
 
         //// debug print
