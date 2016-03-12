@@ -2008,7 +2008,7 @@ bool LoadBlockIndex(bool fAllowNew)
             return false;
     
 	// Genesis block:
-	// block.nTime = 1457721679 
+	// block.nTime = 1457745647 
 	// block.nNonce = 208311901 
 	// block.GetHash = 384b060671f4a93948e9c168216dadb0ca2fbc54aa11c86b0345b6af1c59b2f5
 	// CBlock(hash=384b060671f4a93948e9, PoW=00000951e146b0026411, ver=1,
@@ -2032,14 +2032,14 @@ bool LoadBlockIndex(bool fAllowNew)
         block.hashPrevBlock = 0;
         block.hashMerkleRoot = block.BuildMerkleTree();
         block.nVersion = 1;
-        block.nTime    = 1457721679;
-        block.nBits    = 0x1e0ffff0;
-        block.nNonce   = 208311901;
+        block.nTime    = 1457745647;
+        block.nBits    = 0x207fffff;
+        block.nNonce   = 545259519;
 
         if (fTestNet)
         {
-            block.nTime    = 1457721679;
-            block.nNonce   = 208311901;
+            block.nTime    = 1457745647;
+            block.nNonce   = 545259519;
         }
 
         //// debug print
