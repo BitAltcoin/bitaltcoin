@@ -829,11 +829,11 @@ uint256 static GetOrphanRoot(const CBlock* pblock)
 
 int64 static GetBlockValue(int nHeight, int64 nFees)
 {
-    int64 nSubsidy = 3 * COIN;
+    int64 nSubsidy = 760.5 * COIN;
 
 
     if(nHeight < 10)
-        nSubsidy = 1;
+        nSubsidy = 0;
     if(nHeight > 1000200) // no block reward after 2.5 years
         nSubsidy = 0;
 
