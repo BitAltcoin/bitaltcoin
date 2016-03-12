@@ -42,7 +42,7 @@ static const int64 MIN_TX_FEE = 50000000;
 static const int64 MIN_RELAY_TX_FEE = MIN_TX_FEE;
 static const int64 MAX_MONEY = 2007680 * COIN; // maximum of 2 007 680 coins
 inline bool MoneyRange(int64 nValue) { return (nValue >= 0 && nValue <= MAX_MONEY); }
-static const int COINBASE_MATURITY = 3;
+static const int COINBASE_MATURITY = 35;
 // Threshold for nLockTime: below this value it is interpreted as block number, otherwise as UNIX timestamp.
 static const unsigned int LOCKTIME_THRESHOLD = 10000000; // Tue Nov  5 00:53:20 1985 UTC
 #ifdef USE_UPNP
