@@ -829,10 +829,10 @@ uint256 static GetOrphanRoot(const CBlock* pblock)
 
 int64 static GetBlockValue(int nHeight, int64 nFees)
 {
-    int64 nSubsidy = 2 * COIN;
+    int64 nSubsidy = 3 * COIN;
 
 
-    if(nHeight < 10) // no block reward within the first 3 days
+    if(nHeight < 10)
         nSubsidy = 1;
     if(nHeight > 1000200) // no block reward after 2.5 years
         nSubsidy = 0;
@@ -840,8 +840,8 @@ int64 static GetBlockValue(int nHeight, int64 nFees)
     return nSubsidy + nFees;
 }
 
-static const int64 nTargetTimespan = 0.05 * 24 * 60 * 60; // BitAltcoin: 0.05 days
-static const int64 nTargetSpacing = 5; // BitAltcoin: 5 seconds
+static const int64 nTargetTimespan = 0.5 * 24 * 60 * 60; // BitAltcoin: 0.5 days
+static const int64 nTargetSpacing = 300; // BitAltcoin: 3 minutes
 static const int64 nInterval = nTargetTimespan / nTargetSpacing;
 
 // Thanks: Balthazar for suggesting the following fix
