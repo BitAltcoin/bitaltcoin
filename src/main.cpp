@@ -2006,16 +2006,16 @@ bool LoadBlockIndex(bool fAllowNew)
             return false;
     
 	// Genesis block:
-	// block.nTime = 1457745647 
+	// block.nTime = 1457889292 
 	// block.nNonce = 208311901 
 	// block.GetHash = 384b060671f4a93948e9c168216dadb0ca2fbc54aa11c86b0345b6af1c59b2f5
 	// CBlock(hash=384b060671f4a93948e9, PoW=00000951e146b0026411, ver=1,
-	//  hashPrevBlock=00000000000000000000, hashMerkleRoot=5a2e19825b,
-	//  nTime=1366559428, nBits=1e0ffff0, nNonce=2085386442, vtx=1)
-	// CTransaction(hash=5a2e19825b, ver=1, vin.size=1, vout.size=1, nLockTime=0)
-	// CTxIn(COutPoint(0000000000, -1), coinbase 04ffff001d010441746f646f3a207265706c616365207769746820736f6d657468696e67207468617420656e7375726573206e6f207072656d696e696e6720746f6f6b20706c616365)
+	//  hashPrevBlock=00000000000000000000, hashMerkleRoot=2e422a0e4f,
+	//  nTime=1457889292, nBits=1e0ffff0, nNonce=545259519, vtx=1)
+	// CTransaction(hash=2e422a0e4f, ver=1, vin.size=1, vout.size=1, nLockTime=0)
+	// CTxIn(COutPoint(0000000000, -1), coinbase 04ffff001d010445504c2054696d65732031312f30332f32303136204a696d6d7920446561646a696d2c2041737472616ce280997320566973696f6e6172792c205265626f726e206174203233)
 	// CTxOut(error)
-	// vMerkleTree: 5a2e19825b
+	// vMerkleTree: 2e422a0e4f
         
         // Genesis block
         const char* pszTimestamp = "PL Times 11/03/2016 Jimmy Deadjim, Astral’s Visionary, Reborn at 23";
@@ -2024,7 +2024,7 @@ bool LoadBlockIndex(bool fAllowNew)
         txNew.vout.resize(1);
         txNew.vin[0].scriptSig = CScript() << 486604799 << CBigNum(4) << vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
         txNew.vout[0].nValue = 50 * COIN;
-        txNew.vout[0].scriptPubKey = CScript() << ParseHex("040184710fa689ad5023690c80f3a49c8f13f8d45b8c857fbcbc8bc4a8e4d3eb4b10f4d4604fa08dce601aaf0f470216fe1b51850b4acf21b179c45070ac7b03a9") << OP_CHECKSIG;
+        txNew.vout[0].scriptPubKey = CScript() << ParseHex("04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f") << OP_CHECKSIG;
         CBlock block;
         block.vtx.push_back(txNew);
         block.hashPrevBlock = 0;
@@ -2044,7 +2044,7 @@ bool LoadBlockIndex(bool fAllowNew)
         printf("%s\n", block.GetHash().ToString().c_str());
         printf("%s\n", hashGenesisBlock.ToString().c_str());
         printf("%s\n", block.hashMerkleRoot.ToString().c_str());
-        assert(block.hashMerkleRoot == uint256("0x8aebeb39ed30aa86df006eed8df17d182f4a8c7b02fddc2f1cb942df2f774d9c"));
+        assert(block.hashMerkleRoot == uint256("0x2e422a0e4f31145b912a28e8840cd59c945299ec05de3282b307c62b46b81bce"));
 
         // If genesis block hash does not match, then generate new genesis hash.
         if (false && block.GetHash() != hashGenesisBlock)
