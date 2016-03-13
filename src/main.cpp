@@ -829,24 +829,22 @@ uint256 static GetOrphanRoot(const CBlock* pblock)
 
 int64 static GetBlockValue(int nHeight, int64 nFees)
 {
-    int64 nSubsidy = 760.5 * COIN;
+    int64 nSubsidy = 50 * COIN;
 
 
-    if(nHeight < 10)
-        nSubsidy = 0;
-    if(nHeight > 1000200) // no block reward after 2.5 years
-        nSubsidy = 0;
+    // Subsidy is cut in half every 210000 blocks, which will occur approximately once per year
+    nSubsidy >>= (nHeight / 210000); // BitAltcoin: 840k blocks in ~1 year
 
     return nSubsidy + nFees;
 }
 
 static const int64 nTargetTimespan = 0.5 * 24 * 60 * 60; // BitAltcoin: 0.5 days
-static const int64 nTargetSpacing = 300; // BitAltcoin: 3 minutes
+static const int64 nTargetSpacing = 3 * 60; // BitAltcoin: 3 minutes
 static const int64 nInterval = nTargetTimespan / nTargetSpacing;
 
 // Thanks: Balthazar for suggesting the following fix
 // https://bitcointalk.org/index.php?topic=182430.msg1904506#msg1904506
-static const int64 nReTargetHistoryFact = 8; // look at 4 times the retarget
+static const int64 nReTargetHistoryFact = 8; // look at 8 times the retarget
                                              // interval into the block history
 
 //
@@ -856,7 +854,7 @@ static const int64 nReTargetHistoryFact = 8; // look at 4 times the retarget
 unsigned int ComputeMinWork(unsigned int nBase, int64 nTime)
 {
     // Testnet has min-difficulty blocks
-    // after nTargetSpacing*2 time between blocks:
+    // after nTargetSpacing*8 time between blocks:
     if (fTestNet && nTime > nTargetSpacing*1)
         return bnProofOfWorkLimit.GetCompact();
 
@@ -864,10 +862,10 @@ unsigned int ComputeMinWork(unsigned int nBase, int64 nTime)
     bnResult.SetCompact(nBase);
     while (nTime > 0 && bnResult < bnProofOfWorkLimit)
     {
-        // Maximum 500% adjustment...
-        bnResult *= 5;
-        // ... in best-case exactly 2-times-normal target time
-        nTime -= nTargetTimespan*2;
+        // Maximum 200% adjustment...
+        bnResult *= 2;
+        // ... in best-case exactly 8-times-normal target time
+        nTime -= nTargetTimespan*8;
     }
     if (bnResult > bnProofOfWorkLimit)
         bnResult = bnProofOfWorkLimit;
@@ -2025,20 +2023,20 @@ bool LoadBlockIndex(bool fAllowNew)
         txNew.vin.resize(1);
         txNew.vout.resize(1);
         txNew.vin[0].scriptSig = CScript() << 486604799 << CBigNum(4) << vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
-        txNew.vout[0].nValue = 2;
-        txNew.vout[0].scriptPubKey = CScript() << 0x0 << OP_CHECKSIG; // a privkey for that 'vanity' pubkey would be interesting ;)
+        txNew.vout[0].nValue = 50 * COIN;
+        txNew.vout[0].scriptPubKey = CScript() << ParseHex("040184710fa689ad5023690c80f3a49c8f13f8d45b8c857fbcbc8bc4a8e4d3eb4b10f4d4604fa08dce601aaf0f470216fe1b51850b4acf21b179c45070ac7b03a9") << OP_CHECKSIG;
         CBlock block;
         block.vtx.push_back(txNew);
         block.hashPrevBlock = 0;
         block.hashMerkleRoot = block.BuildMerkleTree();
         block.nVersion = 1;
-        block.nTime    = 1457745647;
-        block.nBits    = 0x207fffff;
+        block.nTime    = 1457889292;
+        block.nBits    = 0x1e0ffff0;
         block.nNonce   = 545259519;
 
         if (fTestNet)
         {
-            block.nTime    = 1457745647;
+            block.nTime    = 1457889292;
             block.nNonce   = 545259519;
         }
 
@@ -2046,7 +2044,7 @@ bool LoadBlockIndex(bool fAllowNew)
         printf("%s\n", block.GetHash().ToString().c_str());
         printf("%s\n", hashGenesisBlock.ToString().c_str());
         printf("%s\n", block.hashMerkleRoot.ToString().c_str());
-        assert(block.hashMerkleRoot == uint256("0xf37905c04e5560421bca75c589fed13ceb67c58cc19b8b93a44738f5f9e85439"));
+        assert(block.hashMerkleRoot == uint256("0x8aebeb39ed30aa86df006eed8df17d182f4a8c7b02fddc2f1cb942df2f774d9c"));
 
         // If genesis block hash does not match, then generate new genesis hash.
         if (false && block.GetHash() != hashGenesisBlock)
