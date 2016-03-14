@@ -29,15 +29,15 @@ class CNode;
 // This fix should give some protection agains sudden
 // changes of the network hashrate.
 // Thanks: https://bitcointalk.org/index.php?topic=182430.msg1904506#msg1904506
-// activated: after block 1 for all following diff retargeting events
-#define COINFIX1_BLOCK  (1)
+// activated: after block 1500 for all following diff retargeting events
+#define COINFIX1_BLOCK  (1500)
 
 // for now, we leave the block size at 600kb, meaning we support roughly 76 800(?) transactions
 // per block, which means about 160 tps
 static const unsigned int MAX_BLOCK_SIZE = 600000;
-static const unsigned int MAX_BLOCK_SIZE_GEN = MAX_BLOCK_SIZE/16;
-static const unsigned int MAX_BLOCK_SIGOPS = MAX_BLOCK_SIZE/10;
-static const unsigned int MAX_ORPHAN_TRANSACTIONS = MAX_BLOCK_SIZE/50;
+static const unsigned int MAX_BLOCK_SIZE_GEN = MAX_BLOCK_SIZE/2;
+static const unsigned int MAX_BLOCK_SIGOPS = MAX_BLOCK_SIZE/50;
+static const unsigned int MAX_ORPHAN_TRANSACTIONS = MAX_BLOCK_SIZE/100;
 static const int64 MIN_TX_FEE = 50000000;
 static const int64 MIN_RELAY_TX_FEE = MIN_TX_FEE;
 static const int64 MAX_MONEY = 2007680 * COIN; // maximum of 2 007 680 coins
