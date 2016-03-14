@@ -1,6 +1,6 @@
 BitAltcoin (XBA) - a 'alternative' version of Bitcoin which uses scrypt
 as a proof of work scheme and is intended for microtransactions.
- - 3 minutes block targets
+ - 5 minutes block targets
  - 2 007 680 total coins
  - no subsidy after approximately 5 years;
     in between: 50 coins per generated block
